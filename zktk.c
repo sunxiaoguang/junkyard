@@ -16,6 +16,8 @@
 static zhandle_t *zh;
 static clientid_t myid;
 
+#define BUFFER_SIZE (1024 * 1024)
+
 static const char* state2String(int state)
 {
   if (state == 0)
@@ -103,7 +105,7 @@ int main(int argc, char **argv) {
       return errno;
     }
     if (strcasecmp("get", command) == 0) {
-      size = 1024 * 32;
+      size = BUFFER_SIZE;
       buffer = malloc(size);
       rc = zoo_get(zh, path, 0, buffer, &size, &stat);
       if (rc == 0) {
@@ -130,8 +132,8 @@ int main(int argc, char **argv) {
       switch (command[0]) {
         case 'c':
         case 'C':
-          realpath = malloc(1024);
-          rc = zoo_create(zh, path, buffer, size,  &ZOO_OPEN_ACL_UNSAFE, 0, realpath, 1024);
+          realpath = malloc(BUFFER_SIZE);
+          rc = zoo_create(zh, path, buffer, size,  &ZOO_OPEN_ACL_UNSAFE, 0, realpath, BUFFER_SIZE);
           free(realpath);
           break;
         default:
