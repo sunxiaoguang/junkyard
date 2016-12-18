@@ -86,7 +86,7 @@ int main(int argc, char **argv) {
     int size;
     char *buffer = NULL;
     struct Stat stat;
-    int rc;
+    int rc, create;
     const char *command = argv[2];
     const char *path = argv[3];
     char *realpath = NULL;
@@ -115,19 +115,24 @@ int main(int argc, char **argv) {
     } else if (strcasecmp("delete", command) == 0) {
       rc = zoo_delete(zh, path, -1);
     } else if (strcasecmp("set", command) == 0 || strcasecmp("create", command) == 0) {
-      if (argc < 5) {
+      create = strcasecmp("create", command) == 0;
+      if (create == 0 && argc < 5) {
         fprintf(stderr, "Missing required input file\n");
         return 1;
       }
-      if (!(file = fopen(argv[4], "rb"))) {
-        fprintf(stderr, "Could not open file %s\n", argv[4]);
-        return 1;
+      if (argc >= 5) {
+        if (!(file = fopen(argv[4], "rb"))) {
+          fprintf(stderr, "Could not open file %s\n", argv[4]);
+          return 1;
+        }
+        fseek(file, 0, SEEK_END);
+        size = ftell(file);
+        fseek(file, 0, SEEK_SET);
+        buffer = malloc(size);
+        fread(buffer, size, 1, file);
+      } else {
+        buffer = "";
       }
-      fseek(file, 0, SEEK_END);
-      size = ftell(file);
-      fseek(file, 0, SEEK_SET);
-      buffer = malloc(size);
-      fread(buffer, size, 1, file);
   
       switch (command[0]) {
         case 'c':
@@ -139,7 +144,9 @@ int main(int argc, char **argv) {
         default:
           rc = zoo_set2(zh, path, buffer, size, -1, &stat);
       }
-      free(buffer);
+      if (argc >= 5) {
+        free(buffer);
+      }
     }
     if (rc) {
       fprintf(stderr, "Failed to %s %s. %d\n", command, path, rc);
