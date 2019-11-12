@@ -1,0 +1,4 @@
+[readpool.coprocessor]
+high-concurrency = 1
+normal-concurrency = 1
+low-concurrency = 1
