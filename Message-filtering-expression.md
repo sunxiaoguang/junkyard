@@ -98,14 +98,12 @@ message Predicate {
         GREATER_THAN_EQUALS = 5;
         LESS_THAN = 6;
         LESS_THAN_EQUALS = 7;
-        STARTS_WITH = 8;
-        STARTS_WITH_IGNORE_CASE = 9;
-        CONTAINS = 10;
-        CONTAINS_IGNORE_CASE = 11;
-        DOES_NOT_CONTAIN = 12;
-        DOES_NOT_CONTAIN_IGNORE_CASE = 13;
-        CONTAINS_ANY = 14;
-        CONTAINS_NONE = 15;
+        LIKE = 8;
+        NOT_LIKE = 9;
+        CONTAINS_ALL = 10;
+        CONTAINS_ANY = 11;
+        CONTAINS_NONE = 12;
+        BETWEEN = 13;
     }
     
     enum ValueType {
