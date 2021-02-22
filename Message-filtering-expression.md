@@ -73,7 +73,7 @@ public interface MessageFilterExpr extends Cloneable {
     }
 
     static RefBuilder builder() {
-        return null;
+        return DefaultImplementation.newMessageFilterExprRefBuilder();
     }
 }
 ```
