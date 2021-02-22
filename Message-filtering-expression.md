@@ -18,47 +18,63 @@ The following changes will be introduced to public interface:
 - Client API
 
 ```java
-public interface MessageFilterRef {
-    static MessageFilterRef property(String key);
-    static MessageFilterRef eventTime();
-    static MessageFilterRef publishTime();
-}
+public interface MessageFilterExpr extends Cloneable {
+    interface RefBuilder {
+        OperatorBuilder property(String name);
+        OperatorBuilder publishTime();
+        OperatorBuilder eventTime();
+    }
 
-public enum MessageFilterOperator {
-    EQUALS,
-    NOT_EQUALS,
-    IN,
-    NOT_IN,
-    GREATER_THAN,
-    GREATER_THAN_EQUALS,
-    LESS_THAN,
-    LESS_THAN_EQUALS,
-    STARTS_WITH,
-    STARTS_WITH_IGNORE_CASE,
-    CONTAINS,
-    CONTAINS_IGNORE_CASE,
-    DOES_NOT_CONTAIN, 
-    DOES_NOT_CONTAIN_IGNORE_CASE, 
-    CONTAINS_ANY,
-    CONTAINS_NONE,
-}
+    interface OperatorBuilder {
+        ExprBuilder equals(String rhs);
+        ExprBuilder notEquals(String rhs);
+        ExprBuilder in(String arg1, String arg2, String... others);
+        ExprBuilder notIn(String arg1, String arg2, String... others);
+        ExprBuilder greaterThan(String rhs);
+        ExprBuilder greaterThanEquals(String rhs);
+        ExprBuilder lessThan(String rhs);
+        ExprBuilder lessThanEquals(String rhs);
+        ExprBuilder like(String rhs);
+        ExprBuilder notLike(String rhs);
+        ExprBuilder containsAll(String rhs);
+        ExprBuilder containsAny(String arg1, String arg2, String... others);
+        ExprBuilder containsNone(String arg1, String arg2, String... others);
+        ExprBuilder between(String arg1, String arg2);
 
-public interface MessageFilterExprBuilder {
-    MessageFilterExprBuilder and(MessageFilterExprBuilder rhs, MessageFilterExprBuilder... others);
-    MessageFilterExprBuilder or(MessageFilterExprBuilder rhs, MessageFilterExprBuilder... others);
-    MessageFilterExprBuilder not();
-    MessageFilterExpr build();
-    
-    static MessageFilterExprBuilder of(MessageFilterRef ref, MessageFilterOperator op, String rhs, String... others);
-    static MessageFilterExprBuilder of(MessageFilterRef ref, MessageFilterOperator op, Long rhs, Long... others);
-    static MessageFilterExprBuilder of(MessageFilterRef ref, MessageFilterOperator op, Double rhs, Double... others);
-  
-    static MessageFilterExprBuilder property(String key, MessageFilterOperator op, String rhs, String... others);
-    static MessageFilterExprBuilder property(String key, MessageFilterOperator op, Long rhs, Long... others);
-    static MessageFilterExprBuilder property(String key, MessageFilterOperator op, Double rhs, Double... others);
-  
-    static MessageFilterExprBuilder eventTime(MessageFilterOperator op, Long rhs, Long... others);
-    static MessageFilterExprBuilder publishTime(MessageFilterOperator op, Long rhs, Long... others);
+        ExprBuilder equals(Long rhs);
+        ExprBuilder notEquals(Long rhs);
+        ExprBuilder in(Long arg1, Long arg2, Long... others);
+        ExprBuilder notIn(Long arg1, Long arg2, Long... others);
+        ExprBuilder greaterThan(Long rhs);
+        ExprBuilder greaterThanEquals(Long rhs);
+        ExprBuilder lessThan(Long rhs);
+        ExprBuilder lessThanEquals(Long rhs);
+        ExprBuilder between(Long arg1, Long arg2);
+
+        ExprBuilder equals(Double rhs);
+        ExprBuilder notEquals(Double rhs);
+        ExprBuilder in(Double arg1, Double arg2, Double... others);
+        ExprBuilder notIn(Double arg1, Double arg2, Double... others);
+        ExprBuilder greaterThan(Double rhs);
+        ExprBuilder greaterThanEquals(Double rhs);
+        ExprBuilder lessThan(Double rhs);
+        ExprBuilder lessThanEquals(Double rhs);
+        ExprBuilder between(Double arg1, Double arg2);
+    }
+
+    interface CombinatorBuilder {
+        RefBuilder and();
+        RefBuilder or();
+        ExprBuilder not();
+    }
+
+    interface ExprBuilder {
+        MessageFilterExpr build();
+    }
+
+    static RefBuilder builder() {
+        return null;
+    }
 }
 ```
 
