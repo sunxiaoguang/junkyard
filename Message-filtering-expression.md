@@ -57,8 +57,8 @@ public interface MessageFilterExprBuilder {
     static MessageFilterExprBuilder property(String key, MessageFilterOperator op, Long rhs, Long... others);
     static MessageFilterExprBuilder property(String key, MessageFilterOperator op, Double rhs, Double... others);
   
-    static MessageFilterExprBuilder eventTime(MessageFilterRef ref, MessageFilterOperator op, Long rhs, Long... others);
-    static MessageFilterExprBuilder publishTime(MessageFilterRef ref, MessageFilterOperator op, Long rhs, Long... others);
+    static MessageFilterExprBuilder eventTime(MessageFilterOperator op, Long rhs, Long... others);
+    static MessageFilterExprBuilder publishTime(MessageFilterOperator op, Long rhs, Long... others);
 }
 ```
 
