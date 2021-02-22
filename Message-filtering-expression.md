@@ -105,7 +105,7 @@ message Predicate {
         CONTAINS_NONE = 12;
         BETWEEN = 13;
     }
-    
+
     enum ValueType {
         STRING = 0;
         LONG = 1;
@@ -127,10 +127,10 @@ message Expr {
         NOT = 3;
     }
 
-    required ExprType tp = 1;
+    required ExprType ty = 1;
     optional Predicate predicate = 2;
-    optional Expr op1 = 3;
-    optional Expr op2 = 4;
+    optional Expr lhs = 3;
+    optional Expr rhs = 4;
 }
 ```
 
