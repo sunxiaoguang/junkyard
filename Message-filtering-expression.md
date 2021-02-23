@@ -36,7 +36,7 @@ public interface MessageFilterExpr extends Cloneable {
         ExprBuilder lessThanEquals(String rhs);
         ExprBuilder like(String rhs);
         ExprBuilder notLike(String rhs);
-        ExprBuilder containsAll(String rhs);
+        ExprBuilder containsAll(String arg1, String arg2, String... others);
         ExprBuilder containsAny(String arg1, String arg2, String... others);
         ExprBuilder containsNone(String arg1, String arg2, String... others);
         ExprBuilder between(String arg1, String arg2);
