@@ -62,13 +62,10 @@ public interface MessageFilterExpr extends Cloneable {
         ExprBuilder between(Double arg1, Double arg2);
     }
 
-    interface CombinatorBuilder {
+    interface ExprBuilder {
         RefBuilder and();
         RefBuilder or();
         ExprBuilder not();
-    }
-
-    interface ExprBuilder {
         MessageFilterExpr build();
     }
 
