@@ -26,6 +26,8 @@ public interface MessageFilterExpr extends Cloneable {
     }
 
     interface OperatorBuilder {
+        ExprBuilder isNull();
+
         ExprBuilder equals(String rhs);
         ExprBuilder notEquals(String rhs);
         ExprBuilder in(String arg1, String arg2, String... others);
@@ -35,10 +37,6 @@ public interface MessageFilterExpr extends Cloneable {
         ExprBuilder lessThan(String rhs);
         ExprBuilder lessThanEquals(String rhs);
         ExprBuilder like(String rhs);
-        ExprBuilder notLike(String rhs);
-        ExprBuilder containsAll(String arg1, String arg2, String... others);
-        ExprBuilder containsAny(String arg1, String arg2, String... others);
-        ExprBuilder containsNone(String arg1, String arg2, String... others);
         ExprBuilder between(String arg1, String arg2);
 
         ExprBuilder equals(Long rhs);
