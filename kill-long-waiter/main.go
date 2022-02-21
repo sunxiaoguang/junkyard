@@ -123,7 +123,7 @@ func collect() {
 				s.status = "NOT_IN_TRANS"
 			} else if time.Duration(s.time)*time.Second < *minTime {
 				s.status = "DID_NOT_WAIT_TOO_LONG"
-			} else if ensureNullString(s.command).String != "Query" {
+			} else if ensureNullString(s.command).String != "Query" && ensureNullString(s.command).String != "Execute" {
 				s.status = "NOT_WAITING"
 			} else {
 				s.info = ensureNullString(s.info)
