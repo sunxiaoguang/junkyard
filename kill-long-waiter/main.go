@@ -19,10 +19,10 @@ const (
 
 var (
 	dsns       = flag.String("dsn", "root:@tcp(127.0.0.1:4000)/mysql", "connect dsn")
-	signature  = flag.String("signature", "", "signature to match the query information")
-	count      = flag.Int("count", 1, "number of queries to be killed")
-	minTime    = flag.Duration("min-wait-time", 25*time.Second, "only kill session with wait time equals or greater than this")
-	log        = flag.String("log", "kill.log", "kill log")
+	signature  = flag.String("signature", "", "signature to match the query")
+	count      = flag.Int("count", 1, "number of queries to kill")
+	minTime    = flag.Duration("min-wait-time", 25*time.Second, "do not kill session wait time less than this")
+	log        = flag.String("log", "kill.log", "kill log file")
 	signatures []string
 	sessions   []Session
 	killed     []Session
@@ -126,7 +126,6 @@ func collect() {
 			} else if ensureNullString(s.command).String != "Query" {
 				s.status = "NOT_WAITING"
 			} else {
-				s.status = "QUERIED"
 				s.info = ensureNullString(s.info)
 				if matchSignature(s.info.String) {
 					s.dsn = d
