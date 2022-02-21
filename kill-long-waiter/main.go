@@ -184,6 +184,7 @@ func kill() {
 
 func printTail() {
 	fmt.Fprintf(logFile, "============== Finished run-%s ==============\n", startTime)
+	logFile.Close()
 }
 
 func MustNil(i interface{}) {
